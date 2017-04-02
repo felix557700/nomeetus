@@ -1,0 +1,23 @@
+{
+  "name": "nomeetus",
+  "version": "0.0.1",
+  "description": "electron calendar app",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron main.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/felix557700/nomeetus.git"
+  },
+  "author": "Filip Vitas",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/felix557700/nomeetus/issues"
+  },
+  "homepage": "https://github.com/felix557700/nomeetus#readme",
+  "dependencies": {
+    "electron": "latest"
+  }
+}
