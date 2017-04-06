@@ -3,8 +3,11 @@
   "version": "0.0.1",
   "description": "electron calendar app",
   "main": "main.js",
+  "productName": "Nomeetus",
   "scripts": {
     "start": "electron main.js",
+    "build:delete": "rm -rf nomeetus.app/",
+    "build": "electron-packager . --out=dist --icon=icon.icns --overwrite=true --ignore=node_modules/electron-*",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -19,5 +22,8 @@
   "homepage": "https://github.com/felix557700/nomeetus#readme",
   "dependencies": {
     "electron": "latest"
+  },
+  "devDependencies": {
+    "electron-packager": "^8.6.0"
   }
 }
