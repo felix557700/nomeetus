@@ -5,7 +5,7 @@
   "main": "main.js",
   "productName": "Nomeetus",
   "scripts": {
-    "start": "electron main.js",
+    "start": "./node_modules/.bin/gulp && ./node_modules/.bin/electron .",
     "dist:delete": "rm -rf dist",
     "dist": "electron-packager . --out=dist --icon=icon.icns --overwrite=true --ignore=node_modules/electron-*",
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -21,7 +21,16 @@
   },
   "homepage": "https://github.com/felix557700/nomeetus#readme",
   "dependencies": {
-    "electron": "latest"
+    "del": "^2.2.2",
+    "electron": "latest",
+    "gulp": "^3.9.1",
+    "gulp-autoprefixer": "^3.1.1",
+    "gulp-concat": "^2.6.1",
+    "gulp-cssnano": "^2.1.2",
+    "gulp-sourcemaps": "^2.5.1",
+    "gulp-stylus": "^2.6.0",
+    "gulp-util": "^3.0.8",
+    "run-sequence": "^1.2.2"
   },
   "devDependencies": {
     "electron-packager": "^8.6.0"
