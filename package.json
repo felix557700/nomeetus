@@ -32,7 +32,8 @@
     "gulp-sourcemaps": "^2.5.1",
     "gulp-stylus": "^2.6.0",
     "gulp-util": "^3.0.8",
-    "run-sequence": "^1.2.2"
+    "run-sequence": "^1.2.2",
+    "bluebird": "latest"
   },
   "devDependencies": {
     "electron-packager": "^8.6.0"
