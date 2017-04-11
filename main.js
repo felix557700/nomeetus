@@ -1,4 +1,5 @@
 const electron = require('electron')
+const googleCalendar = require('./googlecalendar')
 
 const {app, BrowserWindow} = electron
 
@@ -16,3 +17,9 @@ app.on('ready',  function () {
 
     // mainWindow.webContents.openDevTools()
 })
+
+module.exports.openAuthWindow = function() {
+    googleCalendar.authorize()
+        // .then(data => console.log(data))
+        // .catch(_ => console.log('auth error'))
+}
