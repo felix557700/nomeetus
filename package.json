@@ -8,6 +8,10 @@
     "start": "./node_modules/.bin/gulp && ./node_modules/.bin/electron .",
     "dist:delete": "rm -rf dist",
     "dist": "electron-packager . --out=dist --icon=icon.icns --overwrite=true --ignore=node_modules/electron-*",
+    "build": "npm prune && npm install && npm run build-osx && npm run build-linux && npm run build-windows",
+    "build-osx": "electron-packager . $npm_package_productName --overwrite --out=dist --ignore='^/dist$' --ignore='^/media$' --prune --platform=darwin --arch=x64 --icon=media/Icon.icns --app-bundle-id=com.kvasir.hipsterchat --app-version=$npm_package_version --version=$npm_package_electronVersion && cd dist/HipsterChat-darwin-x64 && zip -ryXq9 ../HipsterChat-osx-${npm_package_version}.zip HipsterChat.app",
+    "build-linux": "electron-packager . $npm_package_productName --overwrite --out=dist --ignore='^/dist$' --ignore='^/media/(?!Icon.png$).*' --prune --platform=linux --arch=x64 --app-bundle-id=com.kvasir.hipsterchat --app-version=$npm_package_version --version=$npm_package_electronVersion && cd dist/HipsterChat-linux-x64/ && zip -ryq9 ../HipsterChat-linux-\"$npm_package_version\".zip *",
+    "build-windows": "electron-packager . $npm_package_productName --overwrite --out=dist --ignore='^/dist$' --ignore='^/media/Icon.icns' --ignore='^/media/Icon.svg' --ignore='^/media/screenshot.png' --prune --platform=win32 --arch=ia32 --icon=media/Icon.ico --version=$npm_package_electronVersion --version-string.ProductName=$npm_package_productName --version-string.ProductVersion=$npm_package_electronVersion && cd dist/HipsterChat-win32-ia32/ && zip -ryq9 ../HipsterChat-windows-\"$npm_package_version\".zip *",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -21,6 +25,7 @@
   },
   "homepage": "https://github.com/felix557700/nomeetus#readme",
   "dependencies": {
+    "bluebird": "latest",
     "del": "^2.2.2",
     "electron": "latest",
     "google-auth-library": "^0.10.0",
@@ -32,8 +37,7 @@
     "gulp-sourcemaps": "^2.5.1",
     "gulp-stylus": "^2.6.0",
     "gulp-util": "^3.0.8",
-    "run-sequence": "^1.2.2",
-    "bluebird": "latest"
+    "run-sequence": "^1.2.2"
   },
   "devDependencies": {
     "electron-packager": "^8.6.0"

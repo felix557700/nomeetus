@@ -62,6 +62,7 @@ function getNewAuthCode(oauth2Client) {
         })
 
         let authWindow = new BrowserWindow({
+            alwaysOnTop: true,
             width: 450,
             height: 500,
             useContentSize: true

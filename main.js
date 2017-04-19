@@ -4,7 +4,8 @@ const googleCalendar = require('./googlecalendar')
 const {app, BrowserWindow} = electron
 
 app.on('ready',  function () {
-    let mainWindow =  new BrowserWindow({
+    let mainWindow = new BrowserWindow({
+        title: 'Nomeetus',
         useContentSize: true,
         width: 400,
         height: 300,
@@ -13,6 +14,7 @@ app.on('ready',  function () {
             experimentalFeatures: true
         }
     })
+
     mainWindow.loadURL(`file://${__dirname}/index.html`)
 
     // mainWindow.webContents.openDevTools()
