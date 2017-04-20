@@ -3,21 +3,41 @@ const googleCalendar = require('./googlecalendar')
 
 const {app, BrowserWindow} = electron
 
-app.on('ready',  function () {
-    let mainWindow = new BrowserWindow({
-        title: 'Nomeetus',
-        useContentSize: true,
-        width: 400,
-        height: 300,
-        backgroundColor: 'white',
-        webPreferences: {
-            experimentalFeatures: true
-        }
-    })
+const menubar = require('menubar')
+const path = require('path')
 
-    mainWindow.loadURL(`file://${__dirname}/index.html`)
+const mb = menubar({
+    alwaysOnTop: process.env.NODE_ENV === 'development',
+    showDockIcon: process.env.NODE_ENV === 'development',
+    icon: path.join(__dirname, 'icons/IconTemplate.png'),
+    width: 320,
+    height: 650,
+    y: 20,
+    transparent: true,
+    hasShadow: false,
+    resizable: true,
+    frame: false,
+    showOnAllWorkspaces: true,
+    useContentSize: true,
+    tooltip: 'Nomeetus',
+    webPreferences: {
+        experimentalFeatures: true
+    }
+})
 
-    // mainWindow.webContents.openDevTools()
+mb.on('ready', function ready () {
+    console.log('app is ready')
+    // your app code here
+
+    if (process.env.NODE_ENV === 'development') {
+        mb.on('after-show', () => {
+            mb.window.openDevTools({ detach: true })
+        })
+
+        mb.on('after-close', function () {
+            console.log('after closed')
+        })
+    }
 })
 
 module.exports.openAuthWindow = function() {
