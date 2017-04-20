@@ -11,7 +11,18 @@
     <body>
         <div class="calendar-container">
             <header>
-                <div id="date" contenteditable="true" style="outline: 0">6 / 4 / 2017</div>
+                <div id="date" contenteditable="true" style="outline: 0;">6 / 1 / 2017</div>
+
+                <svg viewBox="0 0 50 80" width="20px" height="20px" class="left">
+                    <path fill="none" stroke="#FFF" d="M45.63 75.8L.375 38.087 45.63.375" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+
+                <h3 style="display: inline-block; user-select: none">January</h3>
+
+                <svg viewBox="0 0 50 80" width="20px" height="20px" class="right">
+                    <path fill="none" stroke="#FFF" d="M.375.375L45.63 38.087.375 75.8" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+
                 <script>
                     var editable = document.getElementById("date")
                     editable.addEventListener("DOMCharacterDataModified", function (event) {
