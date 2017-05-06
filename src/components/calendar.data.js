@@ -14,26 +14,26 @@ const CalendarData = observer(
             super(props)
 
             extendObservable(this, {
-                currentDate: props.date
+                dateToDisplay: props.date,
+                selectedDay: props.date.getDate()
             });
 
+            this.currentDate = new Date()
             this.months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
             this.dayOfWeeks = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
             this.noOfDaysInMonth = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
         }
 
-        initCalendarData(currentDate) {
-            let currentMonth = currentDate.getMonth()
-            let currentYear = currentDate.getFullYear()
+        initCalendarData(dateToDisplay) {
+            let monthToDisplay = dateToDisplay.getMonth()
+            let yearToDisplay = dateToDisplay.getFullYear()
 
             // Because of February
-            if (currentMonth === 1) {
-                if ((currentYear % 4 === 0 && currentYear % 100 !== 0) || currentYear % 400 === 0) {
-                    this.noOfDaysInMonth[1] = 29
-                }
+            if (monthToDisplay === 1) {
+                this.noOfDaysInMonth[1] = ((yearToDisplay % 4 === 0 && yearToDisplay % 100 !== 0) || yearToDisplay % 400 === 0) ? 29 : 28
             }
 
-            this.dateMatrix = this.generateDateMatrix(currentYear, currentMonth)
+            this.dateMatrix = this.generateDateMatrix(yearToDisplay, monthToDisplay)
         }
 
         generateDateMatrix(year, month) {
@@ -81,11 +81,25 @@ const CalendarData = observer(
         }
 
         componentWillUpdate(nextProps) {
-            this.currentDate = nextProps.date
+            this.dateToDisplay = nextProps.date
+        }
+
+        onDayClick(day, event) {
+            if (event.currentTarget.className.includes('next-month')) {
+            //    goto next month
+                return
+            }
+
+            if (event.currentTarget.className.includes('prev-month')) {
+            //    goto prev month
+                return
+            }
+
+            this.selectedDay = day
         }
 
         render() {
-            this.initCalendarData(this.currentDate)
+            this.initCalendarData(this.dateToDisplay)
 
             return (
                 <div class="calendar">
@@ -103,12 +117,18 @@ const CalendarData = observer(
                                         className = 'prev-month'
                                     } else if (weekIndex === this.currentMonthEnd.weekIndex && dayIndex > this.currentMonthEnd.dayIndex) {
                                         className = 'next-month'
+                                    } else if (day === this.currentDate.getDate() && this.currentDate.getMonth() === this.dateToDisplay.getMonth() && this.currentDate.getFullYear() === this.dateToDisplay.getFullYear()) {
+                                        className = 'current-day'
                                     } else {
                                         className = ''
                                     }
 
+                                    if (day === this.selectedDay && !className.includes('prev-month') && !className.includes('next-month')) {
+                                        className += ' ' + 'selected-day'
+                                    }
+
                                     return (
-                                        <div class={ className }>
+                                        <div class={ className } onClick={ this.onDayClick.bind(this, day) }>
                                             <span>{ day }</span>
                                         </div>
                                     )

@@ -30,7 +30,7 @@ const Calendar = observer(
             return (
                 <div class="calendar-container">
 
-                    <CalendarNavigation onNavigationButtonClick={this.onButtonClickHandler.bind(this)}/>
+                    <CalendarNavigation onNavigationButtonClick={ this.onButtonClickHandler.bind(this) }/>
 
                     <CalendarData date={ this.currentDate } />
 
