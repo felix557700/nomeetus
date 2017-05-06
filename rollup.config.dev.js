@@ -13,7 +13,7 @@ export default {
             babelrc: false,
             exclude: 'node_modules/**',
             presets: [ [ 'es2015', { modules: false } ] ],
-            plugins: [ 'transform-decorators-legacy', 'external-helpers', 'inferno' ]
+            plugins: [ 'external-helpers', 'inferno' ]
         }),
         resolve({
             jsnext: true,
