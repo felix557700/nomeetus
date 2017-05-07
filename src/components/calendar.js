@@ -5,6 +5,7 @@ import infernoMobx from "inferno-mobx"
 
 import { CalendarNavigation } from './calendar.navigation'
 import { CalendarData } from './calendar.data'
+import { dateStore } from './stores/DateStore'
 
 let observer = infernoMobx.observer
 
@@ -13,26 +14,16 @@ const Calendar = observer(
         constructor() {
             super();
 
-            extendObservable(this, {
-                currentDate : new Date()
-            })
-        }
-
-        onButtonClickHandler(monthDifference) {
-            this.currentDate = new Date(
-                this.currentDate.getFullYear(),
-                this.currentDate.getMonth() + monthDifference,
-                this.currentDate.getDate()
-            )
+            this.store = dateStore
         }
 
         render() {
             return (
                 <div class="calendar-container">
 
-                    <CalendarNavigation onNavigationButtonClick={ this.onButtonClickHandler.bind(this) }/>
+                    <CalendarNavigation store={ this.store }/>
 
-                    <CalendarData date={ this.currentDate } />
+                    <CalendarData store={ this.store }/>
 
                 </div>
             )

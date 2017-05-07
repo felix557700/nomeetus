@@ -12,25 +12,28 @@ const CalendarNavigation = observer(
             super(props)
 
             this.months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
-
-            extendObservable(this, {
-                currentDate: new Date()
-            })
         }
 
         prevMonth() {
-            this.props.onNavigationButtonClick(-1)
-
-            this.currentDate = new Date(this.currentDate.getFullYear(), this.currentDate.getMonth() - 1)
+            this.props.store.changeDateToDisplay(new Date(
+                this.props.store.date.dateToDisplay.getFullYear(),
+                this.props.store.date.dateToDisplay.getMonth() - 1,
+                this.props.store.date.dateToDisplay.getDate()
+            ))
         }
 
         nextMonth() {
-            this.props.onNavigationButtonClick(+1)
-
-            this.currentDate = new Date(this.currentDate.getFullYear(), this.currentDate.getMonth() + 1)
+            this.props.store.changeDateToDisplay(new Date(
+                this.props.store.date.dateToDisplay.getFullYear(),
+                this.props.store.date.dateToDisplay.getMonth() + 1,
+                this.props.store.date.dateToDisplay.getDate()
+            ))
         }
 
         render() {
+
+            let dateToDisplay = this.props.store.date.dateToDisplay
+
             return (
                 <header>
                     <svg viewBox="0 0 50 80" width="20px" height="20px" class="left" onClick={ _ => this.prevMonth() }>
@@ -38,8 +41,8 @@ const CalendarNavigation = observer(
                     </svg>
 
                     <h3 style="display: inline-block; user-select: none">
-                        <div>{ this.currentDate.getFullYear() }</div>
-                        <div style="display: block; width: 100px">{ this.months[this.currentDate.getMonth()] }</div>
+                        <div>{ dateToDisplay.getFullYear() }</div>
+                        <div style="display: block; width: 100px">{ this.months[dateToDisplay.getMonth()] }</div>
                     </h3>
 
                     <svg viewBox="0 0 50 80" width="20px" height="20px" class="right" onClick={ _ => this.nextMonth() }>

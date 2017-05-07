@@ -13,12 +13,6 @@ const CalendarData = observer(
         constructor(props) {
             super(props)
 
-            extendObservable(this, {
-                dateToDisplay: props.date,
-                selectedDay: props.date.getDate()
-            });
-
-            this.currentDate = new Date()
             this.months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
             this.dayOfWeeks = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
             this.noOfDaysInMonth = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
@@ -80,26 +74,31 @@ const CalendarData = observer(
             return dateMatrix
         }
 
-        componentWillUpdate(nextProps) {
-            this.dateToDisplay = nextProps.date
-        }
-
         onDayClick(day, event) {
-            if (event.currentTarget.className.includes('next-month')) {
-            //    goto next month
-                return
-            }
+
+            let monthDifference = 0
 
             if (event.currentTarget.className.includes('prev-month')) {
-            //    goto prev month
-                return
+                monthDifference = -1
             }
 
-            this.selectedDay = day
+            if (event.currentTarget.className.includes('next-month')) {
+                monthDifference = +1
+            }
+
+            this.props.store.changeDateToDisplay(new Date(
+                this.props.store.date.dateToDisplay.getFullYear(),
+                this.props.store.date.dateToDisplay.getMonth() + monthDifference,
+                day
+            ))
         }
 
         render() {
-            this.initCalendarData(this.dateToDisplay)
+
+            let dateToDisplay = this.props.store.date.dateToDisplay
+            let currentDate = this.props.store.date.currentDate
+
+            this.initCalendarData(dateToDisplay)
 
             return (
                 <div class="calendar">
@@ -117,13 +116,13 @@ const CalendarData = observer(
                                         className = 'prev-month'
                                     } else if (weekIndex === this.currentMonthEnd.weekIndex && dayIndex > this.currentMonthEnd.dayIndex) {
                                         className = 'next-month'
-                                    } else if (day === this.currentDate.getDate() && this.currentDate.getMonth() === this.dateToDisplay.getMonth() && this.currentDate.getFullYear() === this.dateToDisplay.getFullYear()) {
+                                    } else if (day === currentDate.getDate() && currentDate.getMonth() === dateToDisplay.getMonth() && currentDate.getFullYear() === dateToDisplay.getFullYear()) {
                                         className = 'current-day'
                                     } else {
                                         className = ''
                                     }
 
-                                    if (day === this.selectedDay && !className.includes('prev-month') && !className.includes('next-month')) {
+                                    if (day === dateToDisplay.getDate() && !className.includes('prev-month') && !className.includes('next-month')) {
                                         className += ' ' + 'selected-day'
                                     }
 
