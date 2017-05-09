@@ -16,6 +16,7 @@ body
   overflow-x: hidden
   width: calc(100vw - 20px)
   height: calc(100vh - 30px)
+  //cursor: url(https://s3-us-west-2.amazonaws.com/s.cdpn.io/106114/cursor.png) 32 32, move;
 
   &:before
     content: ""
@@ -43,6 +44,10 @@ body
     z-index: 0
     pointer-events: none
 
+.calendar-container
+  height: 100%
+  display: flex
+  flex-direction: column
 
 .calendar-container header 
   background: $mainColor
@@ -108,7 +113,7 @@ body
     width: 25px
     height: 25px
     border-radius: 50%
-    background-color: #3f51b5
+    background-color: $mainColor
     z-index: -1
 
   .current-day > span
@@ -123,7 +128,7 @@ body
     width: 25px
     height: 25px
     border-radius: 50%
-    border: 1px solid #3f51b5
+    border: 1px solid $mainColor
 
 .prev-month,
 .next-month
@@ -149,3 +154,23 @@ path
 .right:active path
   stroke-width: 10
   transition: all 100ms ease-in-out
+
+
+.calendar-app
+  height: 100%
+
+.meeting-wrapper
+  border-radius: 0 0 5px 5px
+  background-color: #f1f1f1
+  overflow-y: auto
+
+  &::-webkit-scrollbar
+    width: 0px
+
+.meeting-item
+  display: block
+  padding: 10px
+  margin: 10px
+  background-color: #fff
+  border-radius: 3px
+  box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.2)

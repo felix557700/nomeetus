@@ -5,6 +5,7 @@ import infernoMobx from "inferno-mobx"
 
 import { CalendarNavigation } from './calendar.navigation'
 import { CalendarData } from './calendar.data'
+import { MeetingList } from './meeting-list'
 import { dateStore } from './stores/DateStore'
 
 let observer = infernoMobx.observer
@@ -24,6 +25,8 @@ const Calendar = observer(
                     <CalendarNavigation store={ this.store }/>
 
                     <CalendarData store={ this.store }/>
+
+                    <MeetingList/>
 
                 </div>
             )
