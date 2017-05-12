@@ -133,9 +133,59 @@ function listEvents(auth) {
     })
 }
 
+async function calendarApiGetMeetings(credentials) {
+    let clientSecret = credentials.installed.client_secret
+    let clientId = credentials.installed.client_id
+    let redirectUrl = credentials.installed.redirect_uris[0]
+    let auth = new googleAuth()
+    let oauth2Client = new auth.OAuth2(clientId, clientSecret, redirectUrl)
+
+    let token = await readTokenFromFile()
+
+    if (!token) {
+        // there is no token
+    }
+
+    oauth2Client.credentials = JSON.parse(token)
+
+    return new Promise((resolve, reject) => {
+        let calendar = google.calendar('v3')
+
+        calendar.events.list({
+            auth: oauth2Client,
+            calendarId: 'primary',
+            timeMin: (new Date()).toISOString(),
+            maxResults: 10, //TODO: list only 10 events
+            singleEvents: true,
+            orderBy: 'startTime'
+        }, null, function(error, response) {
+            if (error) {
+                console.log('The API returned an error: ' + error)
+                resolve([]);
+            }
+            var events = response.items;
+            if (events.length === 0) {
+                console.log('No upcoming events found.')
+                resolve([])
+            } else {
+                console.log('Upcoming 10 events:', events)
+                resolve(events)
+            }
+        })
+    })
+
+}
+
 module.exports.authorize = async function () {
     readFile('client_secret.json')
         .then(content => authorizeUser(JSON.parse(content)))
         .then(authClient => listEvents(authClient))
         .catch(error => console.log('Error loading client secret file: ' + error))
+}
+
+module.exports.getMeetings = async function () {
+    let secret = await readFile('client_secret.json')
+    let meetings = await calendarApiGetMeetings(JSON.parse(secret))
+
+    return meetings
 }

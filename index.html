@@ -3,12 +3,15 @@
         <meta charset="UTF-8">
         <title>Calendar</title>
 
-        <link href="https://fonts.googleapis.com/css?family=Lato:300,400" rel="stylesheet">
         <link href="./build/bundle.css" rel="stylesheet">
-        <script src="./build/bundle.js" async></script>
-        <script src="render.js" defer></script>
+        <script src="render.js" async></script>
     </head>
     <body>
         <div id="calendar-app"></div>
+
+        <script>
+//            require('babel-register')
+            require('./build/bundle')
+        </script>
     </body>
 </html>

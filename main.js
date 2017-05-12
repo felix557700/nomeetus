@@ -40,6 +40,13 @@ mb.on('ready', function ready () {
     }
 })
 
+const ipcMain = electron.ipcMain
+
+ipcMain.on('ipc:message:meetings:get', async function (event, arg) {
+    console.log(arg, event.sender.send)
+    event.sender.send('ipc:message:meetings:reply', await googleCalendar.getMeetings())
+})
+
 module.exports.openAuthWindow = function() {
     googleCalendar.authorize()
         // .then(data => console.log(data))

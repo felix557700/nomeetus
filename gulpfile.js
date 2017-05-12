@@ -29,10 +29,15 @@ gulp.task('css', function () {
         .pipe(gulp.dest('build'))
 })
 
+gulp.task('fonts', function () {
+    return gulp.src('./src/assets/fonts/**')
+        .pipe(gulp.dest('build/fonts'))
+})
+
 gulp.task('watch', function () {
-    gulp.watch(['./src/**/*.styl'], ['css'])
+    gulp.watch(['./src/**/*.styl'], ['fonts', 'css'])
 })
 
 gulp.task('default', function () {
-    runsequence('clean', 'css')
+    runsequence('clean', 'fonts', 'css')
 })
