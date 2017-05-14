@@ -1,9 +1,9 @@
-const fs = require('fs');
+const fs = require('fs')
 const Promise = require('bluebird')
-const readFile = Promise.promisify(require("fs").readFile);
-const readline = require('readline');
-const google = require('googleapis');
-const googleAuth = require('google-auth-library');
+const readFile = Promise.promisify(require("fs").readFile)
+const readline = require('readline')
+const google = require('googleapis')
+const googleAuth = require('google-auth-library')
 const electron = require('electron')
 const {BrowserWindow} = electron
 

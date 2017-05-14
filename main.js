@@ -7,8 +7,8 @@ const menubar = require('menubar')
 const path = require('path')
 
 const mb = menubar({
-    alwaysOnTop: process.env.NODE_ENV === 'development',
-    showDockIcon: process.env.NODE_ENV === 'development',
+    alwaysOnTop: true,
+    showDockIcon: false,
     icon: path.join(__dirname, 'icons/IconTemplate.png'),
     width: 320,
     height: 650,
