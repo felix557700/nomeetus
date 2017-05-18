@@ -1,7 +1,9 @@
 import Inferno from 'inferno'
 import Component from 'inferno-component'
 
-import { extendObservable } from 'mobx'
+import {Loader} from './loader'
+
+import {extendObservable} from 'mobx'
 import infernoMobx from "inferno-mobx"
 
 let observer = infernoMobx.observer
@@ -14,7 +16,7 @@ const MeetingList = observer(
             super(props)
 
             extendObservable(this, {
-                meetingList: []
+                meetingList: null
             })
 
             ipcRenderer.addListener('ipc:message:meetings:reply', this.getList.bind(this))
@@ -39,25 +41,36 @@ const MeetingList = observer(
 
         render() {
 
+            if (!this.meetingList) {
+
+                return <Loader />
+
+            } else if (this.meetingList.length === 0) {
+
+                return ( <div class="no-meetings-today"> No meetings for you today! </div> )
+
+            } else {
+
                 return (
-                <div class="meeting-wrapper">
-                    {
-                        this.meetingList.map(meeting => {
-                            return (
-                                <div class="meeting-item">
-                                    <div class="meeting-data">
-                                        { this.getFormattedTime(meeting.start.dateTime) }
+                    <div class="meeting-wrapper">
+                        {
+                            this.meetingList.map(meeting => {
+                                return (
+                                    <div class="meeting-item">
+                                        <div class="meeting-data">
+                                            { this.getFormattedTime(meeting.start.dateTime) }
+                                        </div>
+                                        <div className="meeting-summary">
+                                            { meeting.summary }
+                                        </div>
+                                        <div style="grid-column: 1 / span 2;justify-self: end; color: #999;">{ meeting.location }</div>
                                     </div>
-                                    <div className="meeting-summary">
-                                        { meeting.summary }
-                                    </div>
-                                    <div style="grid-column: 1 / span 2;justify-self: end; color: #999;">{ meeting.location }</div>
-                                </div>
-                            )
-                        })
-                    }
-                </div>
-            )
+                                )
+                            })
+                        }
+                    </div>
+                )
+            }
         }
     }
 )
