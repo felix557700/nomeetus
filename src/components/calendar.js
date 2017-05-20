@@ -7,15 +7,17 @@ import { CalendarNavigation } from './calendar.navigation'
 import { CalendarData } from './calendar.data'
 import { MeetingList } from './meeting-list'
 import { dateStore } from './stores/DateStore'
+import { meetingStore } from './stores/MeetingStore'
 
 let observer = infernoMobx.observer
 
 const Calendar = observer(
     class Calendar extends Component {
         constructor() {
-            super();
+            super()
 
             this.store = dateStore
+            this.meetingStore = meetingStore
         }
 
         render() {
@@ -26,7 +28,7 @@ const Calendar = observer(
 
                     <CalendarData store={ this.store }/>
 
-                    <MeetingList/>
+                    <MeetingList store={ this.meetingStore }/>
 
                 </div>
             )

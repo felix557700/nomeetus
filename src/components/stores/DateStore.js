@@ -1,6 +1,8 @@
 import Inferno from 'inferno'
 import { extendObservable } from 'mobx'
 
+import { meetingStore } from './MeetingStore'
+
 class DateStore {
 
     constructor() {
@@ -10,10 +12,14 @@ class DateStore {
                 dateToDisplay: new Date()
             }
         })
+
+        meetingStore.changeDate(new Date())
     }
 
     changeDateToDisplay (newDate) {
         this.date.dateToDisplay = newDate
+
+        meetingStore.changeDate(newDate)
     }
 }
 

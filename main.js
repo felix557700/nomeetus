@@ -40,15 +40,18 @@ mb.on('ready', function ready () {
     }
 })
 
-const ipcMain = electron.ipcMain
-
-ipcMain.on('ipc:message:meetings:get', async function (event, arg) {
-    console.log(arg, event.sender.send)
-    event.sender.send('ipc:message:meetings:reply', await googleCalendar.getMeetings())
-})
+// Disable error dialogs by overriding it
+const dialog = electron.dialog
+dialog.showErrorBox = function(title, content) {
+    console.log(`${title}\n${content}`)
+}
 
 module.exports.openAuthWindow = function() {
     googleCalendar.authorize()
         // .then(data => console.log(data))
         // .catch(_ => console.log('auth error'))
+}
+
+module.exports.getMeetingListFromMain = function (date) {
+    return googleCalendar.getMeetingsForDate(date)
 }

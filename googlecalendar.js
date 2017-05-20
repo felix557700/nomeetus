@@ -7,11 +7,11 @@ const googleAuth = require('google-auth-library')
 const electron = require('electron')
 const {BrowserWindow} = electron
 
-const SCOPES = ['https://www.googleapis.com/auth/calendar.readonly'];
+const SCOPES = ['https://www.googleapis.com/auth/calendar.readonly']
 
 // at ~/.credentials/calendar-nodejs-quickstart.json
-const TOKEN_DIR = (process.env.HOME || process.env.HOMEPATH || process.env.USERPROFILE) + '/.credentials/';
-const TOKEN_PATH = TOKEN_DIR + 'calendar-nodejs-quickstart.json';
+const TOKEN_DIR = (process.env.HOME || process.env.HOMEPATH || process.env.USERPROFILE) + '/.credentials/'
+const TOKEN_PATH = TOKEN_DIR + 'calendar-nodejs-quickstart.json'
 
 function authorizeUser(credentials) {
     var clientSecret = credentials.installed.client_secret
@@ -41,7 +41,7 @@ function authorizeUser(credentials) {
 
         oauth2Client.credentials = JSON.parse(token)
         resolve(oauth2Client)
-    });
+    })
 }
 
 function readTokenFromFile() {
@@ -84,7 +84,7 @@ function getNewAuthCode(oauth2Client) {
                     reject(new Error(code))
 
                     authWindow.removeAllListeners('closed')
-                    authWindow.close();
+                    authWindow.close()
                 } else if (title.startsWith('Success')) {
                     let code = title.split(/[ =]/)[2]
                     resolve(code)
@@ -122,18 +122,18 @@ function listEvents(auth) {
     }, function(error, response) {
         if (error) {
             console.log('The API returned an error: ' + error)
-            return;
+            return
         }
-        var events = response.items;
+        var events = response.items
         if (events.length === 0) {
-            console.log('No upcoming events found.')
+            // console.log('No upcoming events found.')
         } else {
-            console.log('Upcoming 10 events:', events)
+            // console.log('Upcoming 10 events:', events)
         }
     })
 }
 
-async function calendarApiGetMeetings(credentials) {
+async function calendarApiGetMeetings(credentials, date) {
     let clientSecret = credentials.installed.client_secret
     let clientId = credentials.installed.client_id
     let redirectUrl = credentials.installed.redirect_uris[0]
@@ -154,21 +154,19 @@ async function calendarApiGetMeetings(credentials) {
         calendar.events.list({
             auth: oauth2Client,
             calendarId: 'primary',
-            timeMin: (new Date()).toISOString(),
-            maxResults: 10, //TODO: list only 10 events
+            timeMin: (new Date(date)).toISOString(),
+            timeMax: (new Date(date.getFullYear(), date.getMonth(), date.getDate() + 1)).toISOString(),
             singleEvents: true,
             orderBy: 'startTime'
         }, null, function(error, response) {
             if (error) {
                 console.log('The API returned an error: ' + error)
-                resolve([]);
+                resolve([])
             }
-            var events = response.items;
+            var events = response.items
             if (events.length === 0) {
-                console.log('No upcoming events found.')
                 resolve([])
             } else {
-                console.log('Upcoming 10 events:', events)
                 resolve(events)
             }
         })
@@ -183,9 +181,9 @@ module.exports.authorize = async function () {
         .catch(error => console.log('Error loading client secret file: ' + error))
 }
 
-module.exports.getMeetings = async function () {
+module.exports.getMeetingsForDate = async function (date) {
     let secret = await readFile('client_secret.json')
-    let meetings = await calendarApiGetMeetings(JSON.parse(secret))
+    let meetings = await calendarApiGetMeetings(JSON.parse(secret), date)
 
     return meetings
 }

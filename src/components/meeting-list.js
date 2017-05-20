@@ -8,23 +8,10 @@ import infernoMobx from "inferno-mobx"
 
 let observer = infernoMobx.observer
 
-const {ipcRenderer} = require('electron')
-
 const MeetingList = observer(
     class MeetingList extends Component {
         constructor(props) {
             super(props)
-
-            extendObservable(this, {
-                meetingList: null
-            })
-
-            ipcRenderer.addListener('ipc:message:meetings:reply', this.getList.bind(this))
-            setTimeout(_ => {ipcRenderer.send('ipc:message:meetings:get', 'ping')}, 1000)
-        }
-
-        getList(event, arg) {
-            this.meetingList = arg
         }
 
         getFormattedTime(dateTime) {
@@ -41,20 +28,26 @@ const MeetingList = observer(
 
         render() {
 
-            if (!this.meetingList) {
+            let meetingList = this.props.store.meetingList
+
+            if (!meetingList) {
 
                 return <Loader />
 
-            } else if (this.meetingList.length === 0) {
+            } else if (meetingList.length === 0) {
 
-                return ( <div class="no-meetings-today"> No meetings for you today! </div> )
+                return (
+                    <div class="meeting-wrapper">
+                        <div class="no-meetings-today"> No meetings for you! </div>
+                    </div>
+                )
 
             } else {
 
                 return (
                     <div class="meeting-wrapper">
                         {
-                            this.meetingList.map(meeting => {
+                            meetingList.map(meeting => {
                                 return (
                                     <div class="meeting-item">
                                         <div class="meeting-data">
