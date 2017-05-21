@@ -38,6 +38,9 @@ Google Calendar API Quotas:
 * 500 requests per 100 seconds per user
 
 
+## Thanks to
+
+[GitHub Electron](http://electron.atom.io/) and [menubar](https://github.com/maxogden/menubar)
 
 ## License
 
