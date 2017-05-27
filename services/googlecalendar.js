@@ -162,6 +162,7 @@ async function calendarApiGetMeetings(credentials, date) {
             if (error) {
                 console.log('The API returned an error: ' + error)
                 resolve([])
+                return
             }
             var events = response.items
             if (events.length === 0) {

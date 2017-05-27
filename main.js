@@ -1,5 +1,6 @@
 const electron = require('electron')
-const googleCalendar = require('./googlecalendar')
+const googleCalendar = require('./services/googlecalendar')
+const SyncService = require('./services/sync-service')
 
 const {app, BrowserWindow} = electron
 
@@ -26,8 +27,6 @@ const mb = menubar({
 })
 
 mb.on('ready', function ready () {
-    console.log('app is ready')
-    // your app code here
 
     if (process.env.NODE_ENV === 'development') {
         mb.on('after-show', () => {
@@ -38,6 +37,9 @@ mb.on('ready', function ready () {
             console.log('after closed')
         })
     }
+
+    let syncService = new SyncService()
+    syncService.start()
 })
 
 // Disable error dialogs by overriding it
