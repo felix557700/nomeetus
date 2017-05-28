@@ -1,4 +1,4 @@
-# nomeetus
+# nomeetus (it is still WIP and it is not ready for daily usage)
 Electron calendar app
 
 It is lunching from menubar
