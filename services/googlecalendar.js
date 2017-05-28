@@ -1,7 +1,6 @@
 const fs = require('fs')
-const Promise = require('bluebird')
-const readFile = Promise.promisify(require("fs").readFile)
-const readline = require('readline')
+const Bluebird = require('bluebird')
+const readFileAsync = Bluebird.promisify(require("fs").readFile)
 const google = require('googleapis')
 const googleAuth = require('google-auth-library')
 const electron = require('electron')
@@ -27,6 +26,8 @@ function authorizeUser(credentials) {
             // there is no token
             let code = await getNewAuthCode(oauth2Client)
 
+
+            //todo: refactror somehow this callback shit
             oauth2Client.getToken(code, function(error, token) {
                 if (error) {
                     reject(error)
@@ -46,7 +47,7 @@ function authorizeUser(credentials) {
 
 function readTokenFromFile() {
     return new Promise((resolve, reject) => {
-        readFile(TOKEN_PATH)
+        readFileAsync(TOKEN_PATH)
             .then(token => resolve(token))
             .catch(error => resolve())
     })
@@ -164,15 +165,8 @@ async function calendarApiGetMeetings(credentials, date) {
 
 }
 
-module.exports.authorize = async function () {
-    readFile('client_secret.json')
-        .then(content => authorizeUser(JSON.parse(content)))
-        .then(authClient => listEvents(authClient))
-        .catch(error => console.log('Error loading client secret file: ' + error))
-}
-
 module.exports.getMeetingsForDate = async function (date) {
-    let secret = await readFile('client_secret.json')
+    let secret = await readFileAsync('client_secret.json')
     let meetings = await calendarApiGetMeetings(JSON.parse(secret), date)
 
     return meetings

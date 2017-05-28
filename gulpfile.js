@@ -39,5 +39,5 @@ gulp.task('watch', function () {
 })
 
 gulp.task('default', function () {
-    runsequence('clean', 'fonts', 'css')
+    runsequence('fonts', 'css')
 })

@@ -5,9 +5,9 @@ import uglify from 'rollup-plugin-uglify'
 import config from './rollup.config.dev'
 
 // Inject the production settings.
-config.dest = 'build/app.js'
+config.dest = 'build/bundle.js'
 config.plugins[3] = replace({ 'process.env.NODE_ENV': JSON.stringify('production') })
-config.plugins.push(uglify())
+// config.plugins.push(uglify())
 config.sourceMap = false
 
 export default config
