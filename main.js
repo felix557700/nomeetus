@@ -48,12 +48,6 @@ dialog.showErrorBox = function(title, content) {
     console.log(`${title}\n${content}`)
 }
 
-module.exports.openAuthWindow = function() {
-    googleCalendar.authorize()
-        // .then(data => console.log(data))
-        // .catch(_ => console.log('auth error'))
-}
-
 module.exports.getMeetingListFromMain = function (date) {
     return googleCalendar.getMeetingsForDate(date)
 }

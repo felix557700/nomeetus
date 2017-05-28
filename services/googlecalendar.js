@@ -134,19 +134,8 @@ function listEvents(auth) {
 }
 
 async function calendarApiGetMeetings(credentials, date) {
-    let clientSecret = credentials.installed.client_secret
-    let clientId = credentials.installed.client_id
-    let redirectUrl = credentials.installed.redirect_uris[0]
-    let auth = new googleAuth()
-    let oauth2Client = new auth.OAuth2(clientId, clientSecret, redirectUrl)
 
-    let token = await readTokenFromFile()
-
-    if (!token) {
-        // there is no token
-    }
-
-    oauth2Client.credentials = JSON.parse(token)
+    let oauth2Client = await authorizeUser(credentials)
 
     return new Promise((resolve, reject) => {
         let calendar = google.calendar('v3')
@@ -158,7 +147,7 @@ async function calendarApiGetMeetings(credentials, date) {
             timeMax: (new Date(date.getFullYear(), date.getMonth(), date.getDate() + 1)).toISOString(),
             singleEvents: true,
             orderBy: 'startTime'
-        }, null, function(error, response) {
+        }, null, function (error, response) {
             if (error) {
                 console.log('The API returned an error: ' + error)
                 resolve([])
